@@ -2,8 +2,27 @@ var express = require("express");
 var router = express.Router();
 var userHelper = require("../helpers/user-helper");
 var mailGun = require("../helpers/mail-helper.js");
+var authHelper = require("../helpers/auth-helper");
 
 /* GET users listing. */
+router.use("/", (req, res, next) => {
+  console.log("GOT REQ, running auth fn");
+  const a = Promise.resolve(authHelper.isAuthenticated(req, res));
+  a.then(
+    () => {
+      console.log("Doneee");
+      next();
+    },
+    (err) => {
+      console.log(err);
+      return res.status(401).json({
+        statusCode: 401,
+        message: "Your not a user",
+      });
+    }
+  );
+});
+
 router.get("/", function (req, res, next) {
   res.send("Hi");
 });
@@ -48,4 +67,15 @@ router.get("/verify/:token", async (req, res) => {
     res.send("not verified ");
   }
 });
+
+router.post("/name", () => {
+  const { email, firstName, lastName } = req.body;
+  if (userHelper.addUserDetails(email, firstName, lastName)) {
+    console.log("Done");
+    res.send("Hello" + firstName);
+  } else {
+    res.send("Error !! \n try again");
+  }
+});
+
 module.exports = router;

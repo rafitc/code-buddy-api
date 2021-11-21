@@ -8,7 +8,7 @@ const mg = mailgun({
   domain: DOMAIN,
 });
 var data = {
-  from: "Mailgun Sandbox <postmaster@sandbox2d6a4bb2acdd4f97a6d2b85d7766f4ec.mailgun.org>",
+  from: process.env.EMAIL_FROM,
   to: "",
   subject: "Verification Mail",
   text: "Testing some Mailgun awesomness!",

@@ -9,7 +9,6 @@ module.exports = {
       .collection("code")
       .find(member)
       .toArray();
-
     if (filteredDocs[0] === undefined) {
       console.log("its null");
       return "not a user";
@@ -17,14 +16,6 @@ module.exports = {
       console.log("its not null");
       return "user";
     }
-    // console.log(filteredDocs);
-    // if (filteredDocs === null) {
-    //   console.log("found documents =>", filteredDocs);
-    //   return true;
-    // } else {
-    //   console.log("No data");
-    //   return false;
-    // }
   },
   addUser: async (email) => {
     var member = { Email: email, verification: "false" };
@@ -35,5 +26,19 @@ module.exports = {
   checkEmailVerification: async (token) => {
     const v = await jwttoken.verifyToken(token);
     console.log("v:" + v);
+  },
+  addUserDetails: async (email, fName, lName) => {
+    const result = await db
+      .get()
+      .collection("code")
+      .updateOne({ Email: email }, { $set: { Fname: fName, Lname: lName } });
+    if (result) {
+      console.log("Updated succesfully");
+      return true;
+    } else {
+      console.log("Got some Error");
+      console.log(result);
+      return "err";
+    }
   },
 };
