@@ -11,8 +11,9 @@ A interactive platform for coders to find a coding partner.
 ## Things to do
 
 - Authentication
-  - [ ] Sign In
-  - [ ] Signup
+  - [x] Sign In
+  - [x] jst authentication
+  - [x] Signup
   - [ ] password reset
   - [ ] User profile
   - [ ] Update password, user profile
